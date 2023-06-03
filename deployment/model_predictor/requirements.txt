@@ -1,0 +1,5 @@
+mlflow==2.3.2
+fastapi==0.95.1
+PyYAML==6.0
+uvicorn==0.22.0
+xgboost==1.7.5
