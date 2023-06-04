@@ -142,7 +142,7 @@ This repository is the sample solution for MLOps Marathon 2023.
     -   Deploy new model version
 
         ```bash
-        make predictor_up
+        make predictor_restart
         make predictor_curl
         ```
 
