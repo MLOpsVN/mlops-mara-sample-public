@@ -54,6 +54,7 @@ class RawDataProcessor:
             training_data,
             test_size=prob_config.test_size,
             random_state=prob_config.random_state,
+            stratify=training_data['label']
         )
 
         with open(prob_config.category_index_path, "wb") as f:
