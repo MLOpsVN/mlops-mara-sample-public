@@ -1,11 +1,13 @@
 import argparse
 import logging
+from typing import Dict, Optional
 
 import mlflow
 import numpy as np
 import xgboost as xgb
 from mlflow.models.signature import infer_signature
 from sklearn.metrics import roc_auc_score
+from sklearn.model_selection import GridSearchCV
 
 from problem_config import (
     ProblemConfig,
@@ -20,7 +22,10 @@ class ModelTrainer:
     EXPERIMENT_NAME = "xgb-1"
 
     @staticmethod
-    def train_model(prob_config: ProblemConfig, model_params, add_captured_data=False):
+    def train_model(
+            prob_config: ProblemConfig, model_params, add_captured_data=False,
+            grid_config: Optional[Dict] = None,
+        ):
         logging.info("start train_model")
         # init mlflow
         mlflow.set_tracking_uri(AppConfig.MLFLOW_TRACKING_URI)
@@ -48,6 +53,10 @@ class ModelTrainer:
         else:
             objective = "multi:softprob"
         model = xgb.XGBClassifier(objective=objective, **model_params)
+
+        if grid_config is not None:
+            model = GridSearchCV(estimator=model, param_grid=grid_config)
+
         model.fit(train_x, train_y)
 
         # evaluate
@@ -81,6 +90,14 @@ if __name__ == "__main__":
 
     prob_config = get_prob_config(args.phase_id, args.prob_id)
     model_config = {"random_state": prob_config.random_state}
+    grid_config = {
+        'min_child_weight': [1, 5, 10],
+        'gamma': [0.5, 1, 1.5, 2, 5],
+        'subsample': [0.6, 0.8, 1.0],
+        'colsample_bytree': [0.6, 0.8, 1.0],
+        'max_depth': [3, 4, 5]
+    }
     ModelTrainer.train_model(
-        prob_config, model_config, add_captured_data=args.add_captured_data
+        prob_config, model_config, add_captured_data=args.add_captured_data,
+        grid_config=grid_config
     )
