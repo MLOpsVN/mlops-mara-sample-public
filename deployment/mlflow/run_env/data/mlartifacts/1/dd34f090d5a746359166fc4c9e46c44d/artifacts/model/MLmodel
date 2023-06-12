@@ -1,0 +1,30 @@
+artifact_path: model
+flavors:
+  python_function:
+    env:
+      conda: conda.yaml
+      virtualenv: python_env.yaml
+    loader_module: mlflow.sklearn
+    model_path: model.pkl
+    predict_fn: predict
+    python_version: 3.8.16
+  sklearn:
+    code: null
+    pickled_model: model.pkl
+    serialization_format: cloudpickle
+    sklearn_version: 1.2.2
+mlflow_version: 2.3.2
+model_uuid: 60fd9d26df424fc08b7bb0f17fe5cefd
+run_id: dd34f090d5a746359166fc4c9e46c44d
+signature:
+  inputs: '[{"name": "feature1", "type": "integer"}, {"name": "feature2", "type":
+    "integer"}, {"name": "feature3", "type": "double"}, {"name": "feature4", "type":
+    "long"}, {"name": "feature5", "type": "double"}, {"name": "feature6", "type":
+    "double"}, {"name": "feature7", "type": "long"}, {"name": "feature8", "type":
+    "double"}, {"name": "feature9", "type": "double"}, {"name": "feature10", "type":
+    "double"}, {"name": "feature11", "type": "long"}, {"name": "feature12", "type":
+    "long"}, {"name": "feature13", "type": "long"}, {"name": "feature14", "type":
+    "double"}, {"name": "feature15", "type": "double"}, {"name": "feature16", "type":
+    "double"}]'
+  outputs: '[{"type": "tensor", "tensor-spec": {"dtype": "int64", "shape": [-1]}}]'
+utc_time_created: '2023-06-12 06:42:21.027491'
