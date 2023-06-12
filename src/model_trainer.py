@@ -92,10 +92,10 @@ if __name__ == "__main__":
     model_config = {"random_state": prob_config.random_state}
     grid_config = {
         'min_child_weight': [1, 5, 10],
-        'gamma': [0.5, 1, 1.5, 2, 5],
-        'subsample': [0.6, 0.8, 1.0],
-        'colsample_bytree': [0.6, 0.8, 1.0],
-        'max_depth': [3, 4, 5]
+        # 'gamma': [0.5, 1, 1.5, 2, 5],
+        # 'subsample': [0.6, 0.8, 1.0],
+        # 'colsample_bytree': [0.6, 0.8, 1.0],
+        # 'max_depth': [3, 4, 5]
     }
     ModelTrainer.train_model(
         prob_config, model_config, add_captured_data=args.add_captured_data,
