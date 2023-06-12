@@ -67,11 +67,20 @@ class ModelTrainer:
         logging.info(f"metrics: {metrics}")
 
         # mlflow log
-        mlflow.log_params(model.get_params())
+        if isinstance(model, GridSearchCV):
+            # log the best model
+            mlflow.log_param("folds", model.cv)
+            best_index = model.best_index_
+            for param in model.param_grid.keys():
+                mlflow.log_param(param, model.cv_results_["param_%s" % param][best_index])
+        else:
+            mlflow.log_params(model.get_params())
+
         mlflow.log_metrics(metrics)
         signature = infer_signature(test_x, predictions)
+
         mlflow.sklearn.log_model(
-            sk_model=model,
+            sk_model=model if not isinstance(model, GridSearchCV) else model.best_estimator_,
             artifact_path=AppConfig.MLFLOW_MODEL_PREFIX,
             signature=signature,
         )
